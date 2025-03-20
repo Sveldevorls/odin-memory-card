@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import fetchPokemon from './fetchPokemon';
 import './App.css';
+import Card from './components/Card/Card';
 
 export default function App() {
 	const [pokemons, setPokemons] = useState(null)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
-	const ids = [1, 2, 3, 4, 7]
+	const ids = [1, 2, 3, 4, 5]
 
 	function handleFetchClick() {
 		setLoading(true)
@@ -20,9 +21,9 @@ export default function App() {
 	if (error) return <h1>{error.message}</h1>
 
 	return (
-		<>
+		<div>
 			<button onClick={handleFetchClick}>Click to fetch</button>
-			{pokemons && pokemons.map(pokemon => <h1 key={pokemon.id}>{pokemon.name}</h1>)}
-		</>
+			{pokemons && pokemons.map(pokemon => <Card pokemon={pokemon} key={pokemon.id}/>)}
+		</div>
 	)
 }
