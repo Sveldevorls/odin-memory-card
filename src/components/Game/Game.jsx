@@ -7,24 +7,25 @@ export default function Game() {
     const [pokemons, setPokemons] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [selectedIDs, setSelectedIDs] = useState([])
 
     useEffect(() => {
         let ignore = false;
         if (!ignore) {
-            fetchPokemons(9);
+            fetchPokemons(3);
         }
         return (() => {
             ignore = true
         })
     }, [])
 
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
     function fetchPokemons(count) {
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         const MAX_ID = 1025;
 
         let ids = []
@@ -41,7 +42,7 @@ export default function Game() {
             .finally(() => setLoading(false))
     }
 
-    function handleRandomizeClick() {
+    function shuffleDeck() {
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -54,14 +55,39 @@ export default function Game() {
         setPokemons(randomizedPokemons);
     }
 
+    function handleCardClick(id) {
+        let nextState;
+        if (selectedIDs.includes(id)) {
+            console.log(id + " has already been clicked");
+            nextState = []
+            setSelectedIDs([]);
+        }
+        else {
+            console.log(id + " is now clicked");
+            nextState = [...selectedIDs, id]
+            if (nextState.length == pokemons.length) {
+                console.log("You won");
+            }
+            setSelectedIDs([...selectedIDs, id])
+        }
+        console.log(nextState)
+
+        shuffleDeck();
+    }
+
     if (loading) return <h1>Fetching data...</h1>
     if (error) return <h1>{error.message}</h1>
 
     return (
         <div>
-            <button onClick={handleRandomizeClick}>Shuffle</button>
             <div className={styles.gameboard}>
-                {pokemons && pokemons.map(pokemon => <Card pokemon={pokemon} key={pokemon.id} />)}
+                {pokemons && pokemons.map(pokemon =>
+                    <Card
+                        pokemon={pokemon}
+                        onCardClick={() => handleCardClick(pokemon.id)}
+                        key={pokemon.id}
+                    />
+                )}
             </div>
         </div>
     )
