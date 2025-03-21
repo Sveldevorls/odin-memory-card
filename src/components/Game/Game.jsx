@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import fetchPokemon from './fetchPokemon';
 import Card from '../Card/Card';
 import styles from "./Game.module.css";
 
 export default function Game() {
     const [pokemons, setPokemons] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
-    const MAX_ID = 1025
+    useEffect(() => {
+        let ignore = false;
+        if (!ignore) {
+            fetchPokemons(9);
+        }
+        return (() => {
+            ignore = true
+        })
+    }, [])
 
     function getRandomInt(min, max) {
         min = Math.ceil(min);
@@ -16,12 +24,15 @@ export default function Game() {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function handleFetchClick(count) {
-        setLoading(true)
+    function fetchPokemons(count) {
+        const MAX_ID = 1025;
 
         let ids = []
         for (let i = 0; i < count; i++) {
-            ids.push(getRandomInt(1, MAX_ID));
+            let randomID = getRandomInt(1, MAX_ID);
+            if (!ids.includes(randomID)) {
+                ids.push(randomID);
+            }
         }
 
         Promise.all(ids.map(id => fetchPokemon(id)))
@@ -35,7 +46,6 @@ export default function Game() {
 
     return (
         <div>
-            <button onClick={() => handleFetchClick(9)}>Click to fetch</button>
             <div className={styles.gameboard}>
                 {pokemons && pokemons.map(pokemon => <Card pokemon={pokemon} key={pokemon.id} />)}
             </div>
