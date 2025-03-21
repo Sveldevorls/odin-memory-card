@@ -8,11 +8,14 @@ export default function Game() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [selectedIDs, setSelectedIDs] = useState([])
+    const [bestScore, setBestScore] = useState(0)
+
+    const cardCount = 10
 
     useEffect(() => {
         let ignore = false;
         if (!ignore) {
-            fetchPokemons(3);
+            fetchPokemons(cardCount);
         }
         return (() => {
             ignore = true
@@ -61,6 +64,7 @@ export default function Game() {
             console.log(id + " has already been clicked");
             nextState = []
             setSelectedIDs([]);
+            setBestScore(Math.max(bestScore, selectedIDs.length))
         }
         else {
             console.log(id + " is now clicked");
@@ -69,6 +73,7 @@ export default function Game() {
                 console.log("You won");
             }
             setSelectedIDs([...selectedIDs, id])
+            setBestScore(Math.max(bestScore, selectedIDs.length + 1))
         }
         console.log(nextState)
 
@@ -80,6 +85,10 @@ export default function Game() {
 
     return (
         <div>
+            <div className={styles.scoreboard}>
+                {selectedIDs.length} / {pokemons.length}<br/>
+                Best score: {bestScore}
+            </div>
             <div className={styles.gameboard}>
                 {pokemons && pokemons.map(pokemon =>
                     <Card
