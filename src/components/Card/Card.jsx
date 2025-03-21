@@ -6,6 +6,7 @@ export default function Card({ pokemon }) {
     return (
         <div className={styles.card}>
             <img
+                width="200"
                 src={pokemon["sprites"]["other"]["official-artwork"]["front_default"]}
                 alt={pokemon.name}
             />

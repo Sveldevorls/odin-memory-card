@@ -1,11 +1,24 @@
 .card {
-    width: 20%;
     border: 1px solid black;
     text-align: center;
     padding: 1em;
     border-radius: 2em;
+    width: 10em;
+
+    @media (width >= 450px) {
+        width: 12em;
+    }
+
+    @media (width >= 600px) {
+        width: 14em;
+    }
 
     img {
         max-width: 100%;
+    }
+
+    h2 {
+        word-wrap: break-word;
+        height: 2lh;
     }
 }
