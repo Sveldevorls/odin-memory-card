@@ -6,8 +6,10 @@ import Menu from './components/Menu/Menu';
 export default function App() {
 	const [showMenu, setShowMenu] = useState(true);
 	const [showGame, setShowGame] = useState(false);
+	const [cardCount, setCardCount] = useState(1);
 
-	function handleStartGameClick() {
+	function handleStartGameClick(cardCount) {
+		setCardCount(cardCount);
 		setShowMenu(false);
 		setShowGame(true);
 	}
@@ -15,7 +17,7 @@ export default function App() {
 	return (
 		<>
 			{showMenu && <Menu onStartGameClick={handleStartGameClick}/>}
-			{showGame && <Game />}
+			{showGame && <Game cardCount={cardCount}/>}
 		</>
 	)
 }

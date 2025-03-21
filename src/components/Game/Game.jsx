@@ -3,14 +3,12 @@ import fetchPokemon from './fetchPokemon';
 import Card from '../Card/Card';
 import styles from "./Game.module.css";
 
-export default function Game() {
+export default function Game({cardCount}) {
     const [pokemons, setPokemons] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [selectedIDs, setSelectedIDs] = useState([])
     const [bestScore, setBestScore] = useState(0)
-
-    const cardCount = 10
 
     useEffect(() => {
         let ignore = false;
