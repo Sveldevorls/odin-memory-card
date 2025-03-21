@@ -41,11 +41,25 @@ export default function Game() {
             .finally(() => setLoading(false))
     }
 
+    function handleRandomizeClick() {
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        const randomizedPokemons = pokemons.slice();
+        shuffleArray(randomizedPokemons);
+        setPokemons(randomizedPokemons);
+    }
+
     if (loading) return <h1>Fetching data...</h1>
     if (error) return <h1>{error.message}</h1>
 
     return (
         <div>
+            <button onClick={handleRandomizeClick}>Shuffle</button>
             <div className={styles.gameboard}>
                 {pokemons && pokemons.map(pokemon => <Card pokemon={pokemon} key={pokemon.id} />)}
             </div>
