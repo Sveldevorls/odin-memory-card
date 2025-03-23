@@ -33,7 +33,7 @@ export default function Game({ onExitGameClick, cardCount }) {
         const MAX_ID = 1025;
 
         let ids = []
-        for (let i = 0; i < count; i++) {
+        while (ids.length < count) {
             let randomID = getRandomInt(1, MAX_ID);
             if (!ids.includes(randomID)) {
                 ids.push(randomID);
