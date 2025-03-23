@@ -14,10 +14,16 @@ export default function App() {
 		setShowGame(true);
 	}
 
+	function handleExitGameClick() {
+		setCardCount(0);
+		setShowMenu(true);
+		setShowGame(false);
+	}
+
 	return (
 		<>
 			{showMenu && <Menu onStartGameClick={handleStartGameClick}/>}
-			{showGame && <Game cardCount={cardCount}/>}
+			{showGame && <Game onExitGameClick={handleExitGameClick} cardCount={cardCount}/>}
 		</>
 	)
 }
