@@ -4,12 +4,12 @@ import Card from '../Card/Card';
 import styles from "./Game.module.css";
 
 export default function Game({ onExitGameClick, cardCount }) {
-    const [pokemons, setPokemons] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const [selectedIDs, setSelectedIDs] = useState([])
-    const [bestScore, setBestScore] = useState(0)
-    const [endScreenMessage, setEndScreenMessage] = useState("")
+    const [pokemons, setPokemons] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [selectedIDs, setSelectedIDs] = useState([]);
+    const [bestScore, setBestScore] = useState(0);
+    const [endScreenMessage, setEndScreenMessage] = useState("");
 
     const dialogRef = useRef(null)
 
@@ -19,7 +19,7 @@ export default function Game({ onExitGameClick, cardCount }) {
             fetchPokemons(cardCount);
         }
         return (() => {
-            ignore = true
+            ignore = true;
         })
     }, [])
 
@@ -61,16 +61,16 @@ export default function Game({ onExitGameClick, cardCount }) {
 
     function handleCardClick(id) {
         if (selectedIDs.includes(id)) {
-            setEndScreenMessage("You lost!");
+            setEndScreenMessage("You lose!");
             dialogRef.current.showModal();
             return
         }
         else {
             let nextSelectedIDs = [...selectedIDs, id];
             setSelectedIDs(() => [...selectedIDs, id]);
-            setBestScore(Math.max(bestScore, selectedIDs.length + 1))
+            setBestScore(Math.max(bestScore, selectedIDs.length + 1));
             if (nextSelectedIDs.length == pokemons.length) {
-                setEndScreenMessage("You won!");
+                setEndScreenMessage("You win!");
                 dialogRef.current.showModal();
                 return
             }
@@ -79,32 +79,32 @@ export default function Game({ onExitGameClick, cardCount }) {
         shuffleDeck();
     }
 
-    if (loading) return <h1>Fetching data...</h1>
-    if (error) return <h1>{error.message}</h1>
+    if (loading) return <div className={styles.message}><h1>Loading...</h1></div>
+    if (error) return <div className={styles.message}><h1>{error.message}</h1></div>
 
     return (
         <>
-        <div>
-            <div className={styles.scoreboard}>
-                {selectedIDs.length} / {pokemons.length}<br />
-                Best score: {bestScore}
+            <div>
+                <div className={styles.scoreboard}>
+                    <h1>{selectedIDs.length} / {pokemons.length}</h1>
+                    <h2>Highscore: {bestScore}</h2>
+                </div>
+                <div className={styles.gameboard}>
+                    {pokemons && pokemons.map(pokemon =>
+                        <Card
+                            pokemon={pokemon}
+                            onCardClick={() => handleCardClick(pokemon.id)}
+                            key={pokemon.id}
+                        />
+                    )}
+                </div>
             </div>
-            <div className={styles.gameboard}>
-                {pokemons && pokemons.map(pokemon =>
-                    <Card
-                        pokemon={pokemon}
-                        onCardClick={() => handleCardClick(pokemon.id)}
-                        key={pokemon.id}
-                    />
-                )}
-            </div>
-        </div>
-        <dialog ref={dialogRef}>
-            <h1>{endScreenMessage}</h1>
-            <p>Your score: {selectedIDs.length}</p>
-            <div><button onClick={() => {setSelectedIDs([]); shuffleDeck(); dialogRef.current.close()}}>Play again</button></div>
-            <div><button onClick={onExitGameClick}>Exit to menu</button></div>
-        </dialog>
+            <dialog ref={dialogRef}>
+                <h1>{endScreenMessage}</h1>
+                <p>Your score: {selectedIDs.length}</p>
+                <button onClick={() => { setSelectedIDs([]); shuffleDeck(); dialogRef.current.close() }}>Play again</button>
+                <button onClick={onExitGameClick}>Exit to menu</button>
+            </dialog>
         </>
     )
 }

@@ -1,4 +1,49 @@
 .menu {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 1em;
+    gap: 0.5lh;
+    font-size: clamp(1rem, 1rem + 0.5vw, 2rem);
+
+    position: relative;
+    top: -5%;
+
+    button {
+        min-width: 15em;
+        width: 20%;
+        position: relative;
+
+        background: none;
+        border: 1px solid black;
+        font-size: 1em;
+        padding: 0.5lh 0.5em;
+        font-weight: bold;
+    }
+
+    button:hover::before {
+        content: "▶";
+        position: absolute;
+        display: block;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -2em;
+        font-size: 0.9em;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
+
+    h1 {
+        margin-bottom: 0.7lh;
+    }
+
+    h2 {
+        display: inline;
+        font-family: "Noto Sans Mono", monospace;
+        font-size: clamp(1rem, 1rem + 0.5vw, 2rem);
+    }
 }

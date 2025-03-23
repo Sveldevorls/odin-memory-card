@@ -10,7 +10,7 @@ export default function Card({ pokemon, onCardClick }) {
                 src={pokemon["sprites"]["other"]["official-artwork"]["front_default"]}
                 alt={pokemon.name}
             />
-            <h2>{capitalize(pokemon.name)}</h2>
+            <p>{capitalize(pokemon.name)}</p>
         </div>
     )
 }

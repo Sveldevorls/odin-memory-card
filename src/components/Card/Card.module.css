@@ -1,9 +1,13 @@
 .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border: 1px solid black;
     text-align: center;
     padding: 1em;
     border-radius: 2em;
     width: 10em;
+    font-weight: bold;
 
     @media (width >= 450px) {
         width: 12em;
@@ -15,10 +19,11 @@
 
     img {
         max-width: 100%;
+        margin-bottom: 0.7lh;
     }
 
-    h2 {
-        word-wrap: break-word;
+    p {
         height: 2lh;
+        font-size: 1.3em;
     }
 }
